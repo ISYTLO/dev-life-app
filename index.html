@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevLife Hub - Productivity App Concept</title>
+    <link rel="icon" type="image/png" href="dev%20life.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="dev%20life.png" alt="DevLife Hub Icon" class="app-icon">
+            <p class="eyebrow">Productivity + Dev Community</p>
+            <h1>DevLife Hub</h1>
+            <p class="subtitle">A mobile-first workspace for Roblox DevForum, habit mastery, and study planning.</p>
+        </div>
+    </header>
+
+    <div class="category-bar">
+        <button class="category-pill active" onclick="selectCategory('All', event)">All</button>
+        <button class="category-pill" onclick="selectCategory('Development', event)">Development</button>
+        <button class="category-pill" onclick="selectCategory('API', event)">API</button>
+        <button class="category-pill" onclick="selectCategory('News', event)">News</button>
+        <button class="category-pill" onclick="selectCategory('Optimization', event)">Optimization</button>
+        <button class="category-pill" onclick="selectCategory('UI', event)">UI</button>
+        <button class="category-pill" onclick="selectCategory('Scripting', event)">Scripting</button>
+        <button class="category-pill" onclick="selectCategory('Building', event)">Building</button>
+        <button class="category-pill" onclick="selectCategory('Modeling', event)">Modeling</button>
+        <span class="category-bubble"></span>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="tab active" onclick="showTab('devforum', event)">Forum</button>
+        <button class="tab" onclick="showTab('habits', event)">Habits</button>
+        <button class="tab" onclick="showTab('study', event)">Study</button>
+    </nav>
+
+    <div id="devforum" class="content active">
+        <div class="page-summary">
+            <div class="summary-pill">
+                <span>Open Topics</span>
+                <strong id="open-topic-count">5</strong>
+            </div>
+            <div class="summary-pill">
+                <span>Official News</span>
+                <strong id="news-count">3</strong>
+            </div>
+        </div>
+
+        <div class="card search-card">
+            <input id="topic-search" type="text" class="search-bar" placeholder="Search Roblox DevForum topics..." oninput="filterTopics()">
+            <div class="chip-row">
+                <button class="chip active" onclick="applyTopicFilter('All', event)">All</button>
+                <button class="chip" onclick="applyTopicFilter('Development', event)">Development</button>
+                <button class="chip" onclick="applyTopicFilter('API', event)">API</button>
+                <button class="chip" onclick="applyTopicFilter('News', event)">News</button>
+                <button class="chip" onclick="applyTopicFilter('Optimization', event)">Optimization</button>
+                <button class="chip" onclick="applyTopicFilter('UI', event)">UI</button>
+                <button class="chip" onclick="applyTopicFilter('Scripting', event)">Scripting</button>
+                <button class="chip" onclick="applyTopicFilter('Building', event)">Building</button>
+                <button class="chip" onclick="applyTopicFilter('Modeling', event)">Modeling</button>
+            </div>
+            <div id="saved-search-tags" class="chip-row saved-search-row"></div>
+            <div class="topic-settings-row">
+                <button class="btn small secondary" onclick="toggleOlderTopics()" id="older-topics-toggle">Show older topics</button>
+                <span id="recent-filter-note" class="recent-note">Showing topics updated in the last 2 weeks</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Public Topics</h3>
+                    <p class="section-subtitle">Only open Roblox DevForum discussions are shown here.</p>
+                </div>
+                <span class="badge">Live feed</span>
+            </div>
+            <div id="topic-list" class="topic-list"></div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Official Roblox News</h3>
+                    <p class="section-subtitle">Updates from the Roblox team and DevForum announcements.</p>
+                </div>
+            </div>
+            <div id="news-list" class="news-list"></div>
+        </div>
+    </div>
+
+    <div id="habits" class="content">
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="stat-label">Current Streak</span>
+                <strong id="streak-count">8</strong>
+                <p>Days in a row</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Completion</span>
+                <strong id="habit-completion">74%</strong>
+                <p>Today</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Focus Points</span>
+                <strong id="focus-points">42</strong>
+                <p>Rewards earned</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Active Habits</h3>
+                    <p class="section-subtitle">Track your daily developer habits with progress and reminders.</p>
+                </div>
+            </div>
+            <div id="habit-list" class="advanced-list"></div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Habit Categories</h3>
+                    <p class="section-subtitle">Organize health, learning, and productivity goals.</p>
+                </div>
+            </div>
+            <div class="habit-category-grid">
+                <div class="category-card">Health <span>3</span></div>
+                <div class="category-card">Learning <span>5</span></div>
+                <div class="category-card">Productivity <span>2</span></div>
+                <div class="category-card">Community <span>1</span></div>
+            </div>
+        </div>
+
+        <div id="habit-form-section" style="display: none;">
+            <div class="card">
+                <h3>Create Advanced Habit</h3>
+                <form id="habit-form">
+                    <div class="form-group">
+                        <label for="habit-name">Habit Name</label>
+                        <input type="text" id="habit-name" placeholder="e.g. Review Lua API" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="habit-category">Category</label>
+                        <select id="habit-category">
+                            <option value="Learning">📚 Learning</option>
+                            <option value="Health">💪 Health</option>
+                            <option value="Productivity">⚡ Productivity</option>
+                            <option value="Community">🤝 Community</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="habit-frequency">Frequency</label>
+                        <select id="habit-frequency">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="2x per week">2x per week</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="habit-goal">Goal</label>
+                        <input type="text" id="habit-goal" placeholder="e.g. 20 minutes practice">
+                    </div>
+                    <div class="form-group">
+                        <label for="habit-reminder">Reminder</label>
+                        <input type="time" id="habit-reminder">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn secondary" onclick="hideForm('habit-form-section')">Cancel</button>
+                        <button type="submit" class="btn">Save Habit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn" onclick="showAddHabitForm()">Create Habit</button>
+            <button class="btn secondary" onclick="viewAllHabits()">All Habits</button>
+        </div>
+    </div>
+
+    <div id="study" class="content">
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="stat-label">Next Exam</span>
+                <strong id="next-exam">3 days</strong>
+                <p>Physics midterm</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Weekly Goal</span>
+                <strong id="study-progress">62%</strong>
+                <p>Completed</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Tasks</span>
+                <strong id="task-count">7</strong>
+                <p>Remaining</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Study Tasks</h3>
+                    <p class="section-subtitle">Actionable tasks and exam prep for every subject.</p>
+                </div>
+            </div>
+            <div id="study-task-list" class="topic-list"></div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <div>
+                    <h3>Subject Plan</h3>
+                    <p class="section-subtitle">Keep track of subjects, due dates, and study notes.</p>
+                </div>
+            </div>
+            <div id="subject-list" class="topic-list"></div>
+        </div>
+
+        <div id="subject-form-section" style="display: none;">
+            <div class="card">
+                <h3>Create New Subject</h3>
+                <form id="subject-form">
+                    <div class="form-group">
+                        <label for="subject-name">Subject Name</label>
+                        <input type="text" id="subject-name" placeholder="e.g. Game Design" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-priority">Priority</label>
+                        <select id="subject-priority">
+                            <option value="High">🔥 High</option>
+                            <option value="Medium">⚡ Medium</option>
+                            <option value="Low">🐌 Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-due-date">Due Date</label>
+                        <input type="date" id="subject-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-exam-date">Exam Date</label>
+                        <input type="date" id="subject-exam-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject-notes">Notes</label>
+                        <input type="text" id="subject-notes" placeholder="Add a quick study note">
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" class="btn secondary" onclick="hideForm('subject-form-section')">Cancel</button>
+                        <button type="submit" class="btn">Save Subject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="btn" onclick="showAddSubjectForm()">Add Subject</button>
+            <button class="btn secondary" onclick="scheduleStudySession()">Plan Session</button>
+        </div>
+    </div>
+
+    <button class="settings-fab" onclick="toggleSettingsPanel()">
+        <span class="fab-icon">🔧</span>
+    </button>
+    <div id="settings-backdrop" class="settings-backdrop" onclick="toggleSettingsPanel()"></div>
+
+    <div id="settings-panel" class="settings-panel">
+        <div class="settings-panel-header">
+            <div>
+                <h3>Settings</h3>
+                <p>Customize the app experience</p>
+            </div>
+            <button class="close-btn" onclick="toggleSettingsPanel()">✕</button>
+        </div>
+
+        <div class="settings-group">
+            <h4>Appearance</h4>
+            <div class="setting-item">
+                <span>Dark Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle" onchange="toggleDarkMode()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span>Accent Color</span>
+                <div class="color-options">
+                    <button class="color-option" style="background:#667eea" data-color="#667eea" onclick="changeAccentColor('#667eea')"></button>
+                    <button class="color-option" style="background:#28a745" data-color="#28a745" onclick="changeAccentColor('#28a745')"></button>
+                    <button class="color-option" style="background:#ffc107" data-color="#ffc107" onclick="changeAccentColor('#ffc107')"></button>
+                    <button class="color-option" style="background:#dc3545" data-color="#dc3545" onclick="changeAccentColor('#dc3545')"></button>
+                    <button class="color-option" style="background:#6f42c1" data-color="#6f42c1" onclick="changeAccentColor('#6f42c1')"></button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <span>Forum Tab Color</span>
+                <div class="color-options">
+                    <button class="color-option" style="background:#6f42c1" data-tab="devforum" data-color="#6f42c1" onclick="changeTabColor('devforum', '#6f42c1')"></button>
+                    <button class="color-option" style="background:#667eea" data-tab="devforum" data-color="#667eea" onclick="changeTabColor('devforum', '#667eea')"></button>
+                    <button class="color-option" style="background:#28a745" data-tab="devforum" data-color="#28a745" onclick="changeTabColor('devforum', '#28a745')"></button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <span>Habits Tab Color</span>
+                <div class="color-options">
+                    <button class="color-option" style="background:#28a745" data-tab="habits" data-color="#28a745" onclick="changeTabColor('habits', '#28a745')"></button>
+                    <button class="color-option" style="background:#22c55e" data-tab="habits" data-color="#22c55e" onclick="changeTabColor('habits', '#22c55e')"></button>
+                    <button class="color-option" style="background:#16a34a" data-tab="habits" data-color="#16a34a" onclick="changeTabColor('habits', '#16a34a')"></button>
+                </div>
+            </div>
+            <div class="setting-item">
+                <span>Study Tab Color</span>
+                <div class="color-options">
+                    <button class="color-option" style="background:#ffc107" data-tab="study" data-color="#ffc107" onclick="changeTabColor('study', '#ffc107')"></button>
+                    <button class="color-option" style="background:#ff9f1a" data-tab="study" data-color="#ff9f1a" onclick="changeTabColor('study', '#ff9f1a')"></button>
+                    <button class="color-option" style="background:#f59e0b" data-tab="study" data-color="#f59e0b" onclick="changeTabColor('study', '#f59e0b')"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h4>Notifications</h4>
+            <div class="setting-item">
+                <span>Push Notifications</span>
+                <label class="switch">
+                    <input type="checkbox" id="notifications-toggle" checked onchange="toggleNotifications()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span>Forum Alerts</span>
+                <label class="switch">
+                    <input type="checkbox" id="forum-notifications" onchange="toggleForumNotifications()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span>Sound Effects</span>
+                <label class="switch">
+                    <input type="checkbox" id="sound-toggle" onchange="toggleSound()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h4>Roblox Dev Forum</h4>
+            <button class="btn small" onclick="openRobloxForum()">Open DevForum</button>
+            <button class="btn small secondary" onclick="openRobloxNews()">Official News</button>
+        </div>
+
+        <div class="settings-group">
+            <h4>Data</h4>
+            <button class="btn small" onclick="exportData()">Export Data</button>
+            <button class="btn small danger" onclick="clearAllData()">Clear All</button>
+        </div>
+    </div>
+
+    <footer class="bottom-nav">
+        <button class="bottom-nav-btn active" onclick="showTab('devforum', event)">Forum</button>
+        <button class="bottom-nav-btn" onclick="showTab('habits', event)">Habits</button>
+        <button class="bottom-nav-btn" onclick="showTab('study', event)">Study</button>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

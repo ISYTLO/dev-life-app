@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"/Users/macbook/Library/Application Support/minecraft/saves/Speed/stats/tessss\" && python3 - <<'PY'\nfrom pathlib import Path\ntext = Path\\('script\\.js'\\)\\.read_text\\(\\)\nstack=\\[\\]\nfor i,ch in enumerate\\(text,1\\):\n    if ch=='\\{': stack\\.append\\(i\\)\n    elif ch=='\\}':\n        if not stack:\n            print\\('Unmatched \\} at', i\\)\n            break\n        stack\\.pop\\(\\)\nelse:\n    if stack:\n        print\\('Unmatched \\{ at', stack\\[-1\\]\\)\n    else:\n        print\\('Braces balanced'\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
