@@ -84,7 +84,7 @@ const forumTopics = [
         replies: 19,
         url: 'https://devforum.roblox.com/t/roblox-studio-plugins/123463',
         status: 'Open',
-        isPrivate: true,
+        isPrivate: false,
         deleted: false
     },
     {
@@ -163,6 +163,50 @@ const forumTopics = [
         status: 'Open',
         isPrivate: false,
         deleted: false
+    },
+    {
+        title: 'Advanced Animation Techniques',
+        summary: 'Tips for creating smooth animations in Roblox.',
+        category: 'Development',
+        tags: ['Animation', 'Scripting'],
+        replies: 35,
+        url: 'https://devforum.roblox.com/t/advanced-animation-techniques/123471',
+        status: 'Open',
+        isPrivate: false,
+        deleted: false
+    },
+    {
+        title: 'Security Best Practices',
+        summary: 'Protecting your games from exploits.',
+        category: 'Optimization',
+        tags: ['Security', 'Scripting'],
+        replies: 28,
+        url: 'https://devforum.roblox.com/t/security-best-practices/123472',
+        status: 'Open',
+        isPrivate: false,
+        deleted: false
+    },
+    {
+        title: 'Collaborative Development Tools',
+        summary: 'Tools for team development on Roblox.',
+        category: 'Development',
+        tags: ['Tools', 'Collaboration'],
+        replies: 22,
+        url: 'https://devforum.roblox.com/t/collaborative-development-tools/123473',
+        status: 'Open',
+        isPrivate: false,
+        deleted: false
+    },
+    {
+        title: 'Mobile Optimization Guide',
+        summary: 'Making games work great on mobile devices.',
+        category: 'Optimization',
+        tags: ['Mobile', 'Performance'],
+        replies: 41,
+        url: 'https://devforum.roblox.com/t/mobile-optimization-guide/123474',
+        status: 'Open',
+        isPrivate: false,
+        deleted: false
     }
 ];
 
@@ -192,7 +236,7 @@ const newsItems = [
 let topicFilter = 'All';
 let topicSearch = '';
 let topicPage = 0;
-let topicsPerPage = 5;
+let topicsPerPage = 20;
 let savedTopics = [];
 let savedSearchTags = [];
 let topicPreferences = {};
@@ -215,7 +259,7 @@ function daysBetween(dateA, dateB) {
 }
 
 function isRecentTopic(topic) {
-    return topic.lastActivity && daysBetween(topic.lastActivity, new Date()) <= 14;
+    return topic.lastActivity && daysBetween(topic.lastActivity, new Date()) <= 10;
 }
 
 function getTopicScore(topic) {
