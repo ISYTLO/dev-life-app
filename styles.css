@@ -883,12 +883,20 @@ body.dark-mode header {
     background: linear-gradient(135deg, #3b1e66 0%, #6f42c1 100%);
 }
 
+body.dark-mode {
+    background-color: black;
+    color: white;
+    --dark-text: white;
+    --light-text: #cccccc;
+    --border-color: #333333;
+}
+
 body.dark-mode .nav-tabs,
 body.dark-mode .bottom-nav,
 body.dark-mode .card,
 body.dark-mode .form-container,
 body.dark-mode .settings-panel {
-    background: #1f1f34;
+    background: black;
     border-color: var(--border-color);
 }
 
@@ -909,7 +917,7 @@ body.dark-mode .chip:hover {
 body.dark-mode .search-bar,
 body.dark-mode .form-group input,
 body.dark-mode .form-group select {
-    background: #29294a;
+    background: black;
     color: #f3f4ff;
     border-color: var(--border-color);
 }
